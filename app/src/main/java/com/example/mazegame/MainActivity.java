@@ -1,5 +1,6 @@
 package com.example.mazegame;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +21,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        startActivity(new Intent(this, GameActivity.class));
+        finish();
     }
 }
