@@ -1,5 +1,6 @@
 package com.example.mazegame;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -11,16 +12,20 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.mazegame.data.LanguageManager;
 import com.example.mazegame.data.ProgressStorage;
 import com.example.mazegame.model.LevelConfig;
 import com.example.mazegame.model.Maze;
 import com.example.mazegame.model.MazeGenerator;
 import com.example.mazegame.view.MazeView;
 
+import java.util.Random;
+
 public class GameActivity extends AppCompatActivity {
 
     public static final String EXTRA_LEVEL = "level";
 
+    private static final String STATE_SEED = "seed";
     private static final int FREE_PLAY = 0;
     private static final int FREE_PLAY_WIDTH = 9;
     private static final int FREE_PLAY_HEIGHT = 15;
@@ -29,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
     private MazeView mazeView;
     private ProgressStorage progress;
     private int level;
+    private long freePlaySeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,10 @@ public class GameActivity extends AppCompatActivity {
         progress = new ProgressStorage(this);
         if (savedInstanceState != null) {
             level = savedInstanceState.getInt(EXTRA_LEVEL, FREE_PLAY);
+            freePlaySeed = savedInstanceState.getLong(STATE_SEED);
         } else {
             level = getIntent().getIntExtra(EXTRA_LEVEL, FREE_PLAY);
+            freePlaySeed = new Random().nextLong();
         }
 
         movesText = findViewById(R.id.movesText);
@@ -62,12 +70,15 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         mazeView.setMaze(buildMaze());
+
+        findViewById(R.id.menuButton).setOnClickListener(v -> showGameMenu());
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(EXTRA_LEVEL, level);
+        outState.putLong(STATE_SEED, freePlaySeed);
     }
 
     private Maze buildMaze() {
@@ -78,7 +89,61 @@ public class GameActivity extends AppCompatActivity {
                     LevelConfig.height(level),
                     LevelConfig.seed(level));
         }
-        return generator.generate(FREE_PLAY_WIDTH, FREE_PLAY_HEIGHT);
+        return generator.generate(FREE_PLAY_WIDTH, FREE_PLAY_HEIGHT, freePlaySeed);
+    }
+
+    private void showGameMenu() {
+        String[] items = {
+                getString(R.string.game_menu_resume),
+                getString(R.string.game_menu_restart),
+                getString(R.string.settings_language),
+                getString(R.string.game_menu_main)
+        };
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.game_menu_title)
+                .setItems(items, (dialog, which) -> {
+                    if (which == 1) {
+                        mazeView.restart();
+                    } else if (which == 2) {
+                        showLanguageDialog();
+                    } else if (which == 3) {
+                        goToMainMenu();
+                    }
+                })
+                .show();
+    }
+
+    private void showLanguageDialog() {
+        final String[] codes = {
+                LanguageManager.SYSTEM,
+                LanguageManager.ENGLISH,
+                LanguageManager.UKRAINIAN
+        };
+        String[] names = {
+                getString(R.string.language_system),
+                getString(R.string.language_english),
+                getString(R.string.language_ukrainian)
+        };
+        String current = LanguageManager.current();
+        int checked = 0;
+        for (int i = 0; i < codes.length; i++) {
+            if (codes[i].equals(current)) {
+                checked = i;
+            }
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.settings_language)
+                .setSingleChoiceItems(names, checked, (dialog, which) -> {
+                    dialog.dismiss();
+                    LanguageManager.apply(codes[which]);
+                })
+                .show();
+    }
+
+    private void goToMainMenu() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
     private void showWinDialog(int moves) {
@@ -97,8 +162,10 @@ public class GameActivity extends AppCompatActivity {
             }
             builder.setNegativeButton(R.string.menu_levels, (dialog, which) -> finish());
         } else {
-            builder.setPositiveButton(R.string.new_maze, (dialog, which) ->
-                    mazeView.setMaze(buildMaze()));
+            builder.setPositiveButton(R.string.new_maze, (dialog, which) -> {
+                freePlaySeed = new Random().nextLong();
+                mazeView.setMaze(buildMaze());
+            });
             builder.setNegativeButton(R.string.to_menu, (dialog, which) -> finish());
         }
         builder.show();

@@ -12,4 +12,15 @@
     <string name="next_level">Наступний рівень</string>
     <string name="new_maze">Новий лабіринт</string>
     <string name="to_menu">Меню</string>
+    <string name="settings_language">Мова</string>
+    <string name="language_system">Мова системи</string>
+    <string name="settings_reset_progress">Скинути прогрес</string>
+    <string name="reset_confirm_title">Скинути прогрес?</string>
+    <string name="reset_confirm_message">Усі пройдені рівні буде скинуто.</string>
+    <string name="reset_confirm_yes">Скинути</string>
+    <string name="reset_done">Прогрес скинуто</string>
+    <string name="game_menu_title">Меню гри</string>
+    <string name="game_menu_resume">Продовжити</string>
+    <string name="game_menu_restart">Почати заново</string>
+    <string name="game_menu_main">Головне меню</string>
 </resources>

@@ -11,4 +11,18 @@
     <string name="next_level">Next level</string>
     <string name="new_maze">New maze</string>
     <string name="to_menu">Menu</string>
+    <string name="settings_language">Language</string>
+    <string name="language_system">System default</string>
+    <string name="language_english" translatable="false">English</string>
+    <string name="language_ukrainian" translatable="false">Українська</string>
+    <string name="settings_reset_progress">Reset progress</string>
+    <string name="reset_confirm_title">Reset progress?</string>
+    <string name="reset_confirm_message">All completed levels will be unmarked.</string>
+    <string name="reset_confirm_yes">Reset</string>
+    <string name="reset_done">Progress reset</string>
+    <string name="menu_icon" translatable="false">☰</string>
+    <string name="game_menu_title">Game menu</string>
+    <string name="game_menu_resume">Resume</string>
+    <string name="game_menu_restart">Restart level</string>
+    <string name="game_menu_main">Main menu</string>
 </resources>

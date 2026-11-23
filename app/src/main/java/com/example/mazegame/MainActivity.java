@@ -29,5 +29,8 @@ public class MainActivity extends AppCompatActivity {
         Button levelsButton = findViewById(R.id.levelsButton);
         levelsButton.setOnClickListener(v ->
                 startActivity(new Intent(this, LevelsActivity.class)));
+        Button settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(v ->
+                startActivity(new Intent(this, SettingsActivity.class)));
     }
 }
