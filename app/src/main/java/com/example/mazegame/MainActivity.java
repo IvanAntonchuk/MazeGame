@@ -26,5 +26,8 @@ public class MainActivity extends AppCompatActivity {
         Button freePlayButton = findViewById(R.id.freePlayButton);
         freePlayButton.setOnClickListener(v ->
                 startActivity(new Intent(this, GameActivity.class)));
+        Button levelsButton = findViewById(R.id.levelsButton);
+        levelsButton.setOnClickListener(v ->
+                startActivity(new Intent(this, LevelsActivity.class)));
     }
 }

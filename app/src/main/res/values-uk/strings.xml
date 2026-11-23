@@ -7,4 +7,9 @@
     <string name="menu_levels">Рівні</string>
     <string name="menu_free_play">Вільна гра</string>
     <string name="menu_settings">Налаштування</string>
+    <string name="level_button">Рівень %1$d</string>
+    <string name="level_button_done">Рівень %1$d ✓</string>
+    <string name="next_level">Наступний рівень</string>
+    <string name="new_maze">Новий лабіринт</string>
+    <string name="to_menu">Меню</string>
 </resources>
