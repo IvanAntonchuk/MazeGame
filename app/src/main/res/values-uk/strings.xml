@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Лабіринт</string>
+    <string name="moves_format">Ходи: %1$d</string>
+    <string name="level_complete">Рівень пройдено!</string>
+    <string name="menu_title">Лабіринт</string>
+    <string name="menu_levels">Рівні</string>
+    <string name="menu_free_play">Вільна гра</string>
+    <string name="menu_settings">Налаштування</string>
+</resources>

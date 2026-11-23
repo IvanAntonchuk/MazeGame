@@ -2,4 +2,8 @@
     <string name="app_name">MazeGame</string>
     <string name="moves_format">Moves: %1$d</string>
     <string name="level_complete">Level complete!</string>
+    <string name="menu_title">Maze</string>
+    <string name="menu_levels">Levels</string>
+    <string name="menu_free_play">Free play</string>
+    <string name="menu_settings">Settings</string>
 </resources>

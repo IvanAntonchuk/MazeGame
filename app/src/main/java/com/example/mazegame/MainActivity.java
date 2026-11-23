@@ -2,6 +2,7 @@ package com.example.mazegame;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -21,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        startActivity(new Intent(this, GameActivity.class));
-        finish();
+
+        Button freePlayButton = findViewById(R.id.freePlayButton);
+        freePlayButton.setOnClickListener(v ->
+                startActivity(new Intent(this, GameActivity.class)));
     }
 }
