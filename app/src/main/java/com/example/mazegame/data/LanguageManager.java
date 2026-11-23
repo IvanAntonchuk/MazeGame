@@ -1,5 +1,6 @@
 package com.example.mazegame.data;
 
+import timber.log.Timber;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 
@@ -28,6 +29,7 @@ public final class LanguageManager {
     }
 
     public static void apply(String language) {
+        Timber.i("Language set to '%s'", SYSTEM.equals(language) ? "system" : language);
         if (SYSTEM.equals(language)) {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList());
         } else {

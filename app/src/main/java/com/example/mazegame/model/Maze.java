@@ -1,5 +1,7 @@
 package com.example.mazegame.model;
 
+import timber.log.Timber;
+
 public class Maze {
     private final int width;
     private final int height;
@@ -7,6 +9,7 @@ public class Maze {
 
     public Maze(int width, int height) {
         if (width < 2 || height < 2) {
+            Timber.e("Invalid maze size %dx%d", width, height);
             throw new IllegalArgumentException("Maze must be at least 2x2");
         }
         this.width = width;

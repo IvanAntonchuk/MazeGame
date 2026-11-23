@@ -1,5 +1,6 @@
 package com.example.mazegame.view;
 
+import timber.log.Timber;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -174,10 +175,12 @@ public class MazeView extends View {
         final int fromY = player.getY();
         int steps = player.slide(direction);
         if (steps == 0) {
+            Timber.v("Swipe %s blocked at (%d, %d)", direction, fromX, fromY);
             return;
         }
         final int toX = player.getX();
         final int toY = player.getY();
+        Timber.d("Swipe %s: %d cells to (%d, %d)", direction, steps, toX, toY);
 
         animator = ValueAnimator.ofFloat(0f, 1f);
         animator.setDuration(steps * MS_PER_CELL);

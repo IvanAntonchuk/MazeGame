@@ -1,5 +1,6 @@
 package com.example.mazegame.model;
 
+import timber.log.Timber;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -9,6 +10,7 @@ import java.util.Random;
 public class MazeGenerator {
 
     public Maze generate(int width, int height, long seed) {
+        Timber.d("Generating maze %dx%d with seed %d", width, height, seed);
         Maze maze = new Maze(width, height);
         Random random = new Random(seed);
         boolean[][] visited = new boolean[width][height];

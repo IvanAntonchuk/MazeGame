@@ -2,13 +2,14 @@ package com.example.mazegame;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,14 +24,23 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Button freePlayButton = findViewById(R.id.freePlayButton);
-        freePlayButton.setOnClickListener(v ->
-                startActivity(new Intent(this, GameActivity.class)));
-        Button levelsButton = findViewById(R.id.levelsButton);
-        levelsButton.setOnClickListener(v ->
-                startActivity(new Intent(this, LevelsActivity.class)));
-        Button settingsButton = findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(v ->
-                startActivity(new Intent(this, SettingsActivity.class)));
+        findViewById(R.id.levelsButton).setOnClickListener(v -> openLevels());
+        findViewById(R.id.freePlayButton).setOnClickListener(v -> openFreePlay());
+        findViewById(R.id.settingsButton).setOnClickListener(v -> openSettings());
+    }
+
+    private void openLevels() {
+        Timber.d("Levels selected");
+        startActivity(new Intent(this, LevelsActivity.class));
+    }
+
+    private void openFreePlay() {
+        Timber.d("Free play selected");
+        startActivity(new Intent(this, GameActivity.class));
+    }
+
+    private void openSettings() {
+        Timber.d("Settings selected");
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 }

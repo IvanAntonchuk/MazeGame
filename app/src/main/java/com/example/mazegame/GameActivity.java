@@ -21,6 +21,8 @@ import com.example.mazegame.view.MazeView;
 
 import java.util.Random;
 
+import timber.log.Timber;
+
 public class GameActivity extends AppCompatActivity {
 
     public static final String EXTRA_LEVEL = "level";
@@ -51,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             level = savedInstanceState.getInt(EXTRA_LEVEL, FREE_PLAY);
             freePlaySeed = savedInstanceState.getLong(STATE_SEED);
+            Timber.d("Game screen recreated");
         } else {
             level = getIntent().getIntExtra(EXTRA_LEVEL, FREE_PLAY);
             freePlaySeed = new Random().nextLong();
@@ -70,6 +73,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         mazeView.setMaze(buildMaze());
+        Timber.i("Game started: level=%d", level);
 
         findViewById(R.id.menuButton).setOnClickListener(v -> showGameMenu());
     }
@@ -93,6 +97,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showGameMenu() {
+        Timber.d("Game menu opened");
         String[] items = {
                 getString(R.string.game_menu_resume),
                 getString(R.string.game_menu_restart),
@@ -101,16 +106,19 @@ public class GameActivity extends AppCompatActivity {
         };
         new AlertDialog.Builder(this)
                 .setTitle(R.string.game_menu_title)
-                .setItems(items, (dialog, which) -> {
-                    if (which == 1) {
-                        mazeView.restart();
-                    } else if (which == 2) {
-                        showLanguageDialog();
-                    } else if (which == 3) {
-                        goToMainMenu();
-                    }
-                })
+                .setItems(items, (dialog, which) -> handleMenuChoice(which))
                 .show();
+    }
+
+    private void handleMenuChoice(int which) {
+        if (which == 1) {
+            Timber.i("Level restarted from game menu");
+            mazeView.restart();
+        } else if (which == 2) {
+            showLanguageDialog();
+        } else if (which == 3) {
+            goToMainMenu();
+        }
     }
 
     private void showLanguageDialog() {
@@ -141,12 +149,26 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void goToMainMenu() {
+        Timber.d("Returning to main menu");
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
+    private void startNextLevel() {
+        level++;
+        Timber.i("Starting level %d", level);
+        mazeView.setMaze(buildMaze());
+    }
+
+    private void startNewFreePlayMaze() {
+        freePlaySeed = new Random().nextLong();
+        Timber.i("New free play maze requested");
+        mazeView.setMaze(buildMaze());
+    }
+
     private void showWinDialog(int moves) {
+        Timber.i("Exit reached: level=%d, moves=%d", level, moves);
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(R.string.level_complete)
                 .setMessage(getString(R.string.moves_format, moves))
@@ -155,17 +177,11 @@ public class GameActivity extends AppCompatActivity {
         if (level > FREE_PLAY) {
             progress.markCompleted(level);
             if (level < LevelConfig.LEVEL_COUNT) {
-                builder.setPositiveButton(R.string.next_level, (dialog, which) -> {
-                    level++;
-                    mazeView.setMaze(buildMaze());
-                });
+                builder.setPositiveButton(R.string.next_level, (dialog, which) -> startNextLevel());
             }
             builder.setNegativeButton(R.string.menu_levels, (dialog, which) -> finish());
         } else {
-            builder.setPositiveButton(R.string.new_maze, (dialog, which) -> {
-                freePlaySeed = new Random().nextLong();
-                mazeView.setMaze(buildMaze());
-            });
+            builder.setPositiveButton(R.string.new_maze, (dialog, which) -> startNewFreePlayMaze());
             builder.setNegativeButton(R.string.to_menu, (dialog, which) -> finish());
         }
         builder.show();

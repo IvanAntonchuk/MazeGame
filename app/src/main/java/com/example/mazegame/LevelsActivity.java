@@ -1,5 +1,6 @@
 package com.example.mazegame;
 
+import timber.log.Timber;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class LevelsActivity extends AppCompatActivity {
     }
 
     private void openLevel(int level) {
+        Timber.d("Opening level %d", level);
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra(GameActivity.EXTRA_LEVEL, level);
         startActivity(intent);
