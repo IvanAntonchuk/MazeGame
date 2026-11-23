@@ -32,6 +32,7 @@ public class LevelsActivity extends AppCompatActivity {
         });
         levelsGrid = findViewById(R.id.levelsGrid);
         progress = new ProgressStorage(this);
+        findViewById(R.id.backButton).setOnClickListener(v -> finish());
     }
 
     @Override

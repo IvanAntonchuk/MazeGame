@@ -33,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
                 LanguageManager.apply(languageForId(checkedId)));
 
         findViewById(R.id.resetButton).setOnClickListener(v -> confirmReset());
+        findViewById(R.id.backButton).setOnClickListener(v -> finish());
     }
 
     private int idForLanguage(String language) {

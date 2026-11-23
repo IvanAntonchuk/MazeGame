@@ -25,4 +25,6 @@
     <string name="game_menu_resume">Resume</string>
     <string name="game_menu_restart">Restart level</string>
     <string name="game_menu_main">Main menu</string>
+    <string name="back_icon" translatable="false">←</string>
+    <string name="back">Back</string>
 </resources>

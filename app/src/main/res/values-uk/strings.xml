@@ -23,4 +23,5 @@
     <string name="game_menu_resume">Продовжити</string>
     <string name="game_menu_restart">Почати заново</string>
     <string name="game_menu_main">Головне меню</string>
+    <string name="back">Назад</string>
 </resources>
